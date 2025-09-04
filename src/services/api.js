@@ -28,8 +28,10 @@ export const authAPI = {
 // Account endpoints
 export const accountAPI = {
   get: () => api.get('/account'),
+  getAll: () => api.get('/account'),
   create: (accountData) => api.post('/account', accountData),
-  update: (accountData) => api.put('/account', accountData),
+  update: (id, accountData) => api.put(`/account/${id}`, accountData),
+  delete: (id) => api.delete(`/account/${id}`),
 };
 
 // Category endpoints
