@@ -26,11 +26,11 @@ export const Register = () => {
 
   const validateForm = () => {
     if (!formData.name.trim()) {
-      setError('Nome é obrigatório');
+      setError('Nome ï¿½ obrigatï¿½rio');
       return false;
     }
     if (!formData.email.trim()) {
-      setError('Email é obrigatório');
+      setError('Email ï¿½ obrigatï¿½rio');
       return false;
     }
     if (formData.password.length < 6) {
@@ -38,7 +38,7 @@ export const Register = () => {
       return false;
     }
     if (formData.password !== formData.confirmPassword) {
-      setError('Senhas não coincidem');
+      setError('Senhas nï¿½o coincidem');
       return false;
     }
     return true;
@@ -139,7 +139,7 @@ export const Register = () => {
                 name="password"
                 type="password"
                 required
-                placeholder="Digite sua senha (mín. 6 caracteres)"
+                placeholder="Digite sua senha (mï¿½n. 6 caracteres)"
                 value={formData.password}
                 onChange={handleChange}
                 className="mt-1"
@@ -190,14 +190,22 @@ export const Register = () => {
           </div>
 
           <div className="text-center text-xs text-gray-600 dark:text-gray-400">
-            Ao criar uma conta, você concorda com nossos{' '}
-            <a href="#" className="text-primary-600 hover:text-primary-500 dark:text-primary-400">
+            Ao criar uma conta, vocï¿½ concorda com nossos{' '}
+            <button
+              type="button"
+              className="text-primary-600 hover:text-primary-500 dark:text-primary-400 underline"
+              onClick={() => {/* TODO: Implementar modal de Termos de Uso */}}
+            >
               Termos de Uso
-            </a>{' '}
+            </button>{' '}
             e{' '}
-            <a href="#" className="text-primary-600 hover:text-primary-500 dark:text-primary-400">
-              Política de Privacidade
-            </a>
+            <button
+              type="button"
+              className="text-primary-600 hover:text-primary-500 dark:text-primary-400 underline"
+              onClick={() => {/* TODO: Implementar modal de Polï¿½tica de Privacidade */}}
+            >
+              Polï¿½tica de Privacidade
+            </button>
           </div>
         </form>
       </div>

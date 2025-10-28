@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Button } from '../components/ui/Button';
@@ -26,13 +26,22 @@ export const Transactions = () => {
     categoryId: ''
   });
 
-  useEffect(() => {
-    loadInitialData();
-  }, []);
+  // Define loadTransactions with useCallback before useEffect
+  const loadTransactions = useCallback(async () => {
+    try {
+      const response = await transactionAPI.getAll(currentPage, 10);
+      const data = response.data;
 
-  useEffect(() => {
-    if (currentPage > 1) {
-      loadTransactions();
+      if (currentPage === 1) {
+        setTransactions(data.transactions || data || []);
+      } else {
+        setTransactions(prev => [...prev, ...(data.transactions || data || [])]);
+      }
+
+      setHasNextPage(data.hasNextPage || false);
+    } catch (err) {
+      setError('Erro ao carregar transações');
+      console.error('Error loading transactions:', err);
     }
   }, [currentPage]);
 
@@ -44,9 +53,9 @@ export const Transactions = () => {
         accountAPI.getAll(),
         transactionAPI.getAll(1, 10)
       ]);
-      
+
       setCategories(categoriesRes.data || []);
-      
+
       // Handle different response formats for accounts
       let accountsData = accountsRes.data;
       if (Array.isArray(accountsData)) {
@@ -61,11 +70,11 @@ export const Transactions = () => {
         setAccounts([]);
         accountsData = [];
       }
-      
+
       const transactionData = transactionsRes.data;
       setTransactions(transactionData.transactions || transactionData || []);
       setHasNextPage(transactionData.hasNextPage || false);
-      
+
       // Set default account if available
       if (accountsData && accountsData.length > 0) {
         setFormData(prev => ({ ...prev, accountId: accountsData[0].id.toString() }));
@@ -78,23 +87,16 @@ export const Transactions = () => {
     }
   };
 
-  const loadTransactions = async () => {
-    try {
-      const response = await transactionAPI.getAll(currentPage, 10);
-      const data = response.data;
-      
-      if (currentPage === 1) {
-        setTransactions(data.transactions || data || []);
-      } else {
-        setTransactions(prev => [...prev, ...(data.transactions || data || [])]);
-      }
-      
-      setHasNextPage(data.hasNextPage || false);
-    } catch (err) {
-      setError('Erro ao carregar transações');
-      console.error('Error loading transactions:', err);
+  useEffect(() => {
+    loadInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (currentPage > 1) {
+      loadTransactions();
     }
-  };
+  }, [currentPage, loadTransactions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

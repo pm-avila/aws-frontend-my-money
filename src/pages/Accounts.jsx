@@ -70,18 +70,19 @@ export const Accounts = () => {
     }
   };
 
-  const handleEdit = (account) => {
-    setEditingAccount(account);
-    setFormData({
-      name: account.name,
-      balance: account.balance.toString()
-    });
-    setShowModal(true);
-  };
+  // Temporarily disabled - backend endpoints not available yet
+  // const handleEdit = (account) => {
+  //   setEditingAccount(account);
+  //   setFormData({
+  //     name: account.name,
+  //     balance: account.balance.toString()
+  //   });
+  //   setShowModal(true);
+  // };
 
-  const handleDelete = async (id) => {
-    setError('Exclusão de contas não está disponível no momento');
-  };
+  // const handleDelete = async (id) => {
+  //   setError('Exclusão de contas não está disponível no momento');
+  // };
 
   const handleCloseModal = () => {
     setShowModal(false);
