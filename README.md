@@ -1,4 +1,4 @@
-# aws-frontend-my-money
+# aws-frontend-my-money2
 A personal financial control system built for AWS deployment, providing comprehensive personal finance management with a modern and intuitive interface.
 
 ## ⚡ Quick Start
